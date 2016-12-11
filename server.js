@@ -38,7 +38,7 @@ app.post('/webhook/', function (req, res) {
     }, function(error, response, body) {
       try {
         var condition = body.main;
-        sendTextMessage(sender, 'วันนี้อุณหภูมิ ' + condition.temp + 'ที่' + location);
+        sendTextMessage(sender, 'วันนี้อุณหภูมิ ' + condition.temp + 'เซลเซียส ที่' + location);
       } catch(err) {
         console.error('error caught', err);
         sendTextMessage(sender, 'There was an error.');
