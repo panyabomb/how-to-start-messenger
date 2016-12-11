@@ -30,10 +30,21 @@ app.post('/webhook/', function (req, res) {
         continue
       }
       // sendTextMessage(sender, 'Text received, echo: ' + text.substring(0, 200))
-        axios.get('http://api.openweathermap.org/data/2.5/weather?q=' + text + '&APPID=7fee5476cbd1705fb181c28e20c473b7').then(function (res) {
-          console.log(res.data.main.temp)
-          sendTextMessage(sender, res.data.main.temp - 273)
-        })
+    var location = event.message.text
+    var weatherEndpoint = 'http://api.openweathermap.org/data/2.5/weather?q=' +location+ '&units=metric&appid=6a2f1ff577a83fd78491f8b67e5f8298'
+    request({
+      url: weatherEndpoint,
+      json: true
+    }, function(error, response, body) {
+      try {
+        var condition = body.main;
+        sendTextMessage(sender, 'วันนี้อุณหภูมิ ' + condition.temp + 'ที่' + location);
+      } catch(err) {
+        console.error('error caught', err);
+        sendTextMessage(sender, 'There was an error.');
+      }
+    })
+
     }
     if (event.postback) {
       let text = JSON.stringify(event.postback)
